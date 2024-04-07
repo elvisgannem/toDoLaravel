@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\DeleteTaskRequest;
 use App\Models\Task;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -29,5 +30,11 @@ class TasksController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Tarefa criada com sucesso');
+    }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        Task::find($id)->delete();
+        return redirect()->back()->with('success', 'Tarefa deletada com sucesso');
     }
 }

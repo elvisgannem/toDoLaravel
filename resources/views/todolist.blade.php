@@ -41,6 +41,11 @@
                                 </div>
                                 <p id="relator">{{ $task->relator->name }}</p>
                                 <input type="checkbox" name="" id="" {{ $task->finished ? 'checked' : '' }}>
+                                <form action="{{ route('todolist.destroy', $task->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none">Apagar</button>
+                                </form>
                             </li>
                         @endforeach
                     </ul>

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [TasksController::class, 'index'])->middleware(['auth'])->name('todolist.index');
 Route::group(['prefix' => 'tasks', 'middleware' => 'auth'], function () {
     Route::post('/', [TasksController::class, 'store'])->name('todolist.store');
+    Route::delete('/{id}', [TasksController::class, 'destroy'])->name('todolist.destroy');
 });
 
 Route::get('/dashboard', function () {
