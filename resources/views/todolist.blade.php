@@ -9,16 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 flex flex-col gap-5">
-
-                    @if ($errors->any())
-                        <div class="text-center text-red-500 font-bold">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    <x-input-error :messages="$errors->all()" class="text-center text-red-500 font-bold text-xl" />
 
                     @if(session('success'))
                         <div class="text-center text-green-500 font-bold">
