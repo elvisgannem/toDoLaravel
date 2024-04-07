@@ -6,7 +6,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [TasksController::class, 'index'])->middleware(['auth'])->name('todolist.index');
 Route::group(['prefix' => 'tasks', 'middleware' => 'auth'], function () {
-    Route::post('/', [TasksController::class, 'store'])->name('todolist.store');
+    Route::get('/{id}/edit', [TasksController::class, 'edit'])->name('todolist.edit');
+    Route::get('/{id}/add-users', [TasksController::class, 'addUsers'])->name('todolist.addUsers');
+    Route::post('/create', [TasksController::class, 'store'])->name('todolist.store');
+    Route::put('/update', [TasksController::class, 'update'])->name('todolist.update');
     Route::delete('/{id}', [TasksController::class, 'destroy'])->name('todolist.destroy');
 });
 

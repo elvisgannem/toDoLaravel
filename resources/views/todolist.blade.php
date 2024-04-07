@@ -20,7 +20,7 @@
                     <form class="flex flex-col items-center" action="{{ route('todolist.store') }}" method="POST">
                         @csrf
                         <label for="newTask"></label>
-                        <input type="text" class="w-1/2 rounded" id="newTask" name="taskName" />
+                        <input type="text" class="w-1/2 rounded" id="newTask" name="taskName" placeholder="Nome da tarefa" />
                         <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded w-1/2">Adicionar Tarefa</button>
                     </form>
                     <ul class="flex flex-col gap-4">
@@ -32,6 +32,11 @@
                                 </div>
                                 <p id="relator">{{ $task->relator->name }}</p>
                                 <input type="checkbox" name="" id="" {{ $task->finished ? 'checked' : '' }}>
+                                <form action="{{ route('todolist.edit', $task->id) }}">
+                                    @csrf
+                                    <button type="submit" class="text-yellow-500 hover:text-yellow-700 focus:outline-none">Editar</button>
+                                </form>
+
                                 <form action="{{ route('todolist.destroy', $task->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
