@@ -31,7 +31,16 @@
                                     <p>{{ $task->name }}</p>
                                 </div>
                                 <p id="relator">{{ $task->relator->name }}</p>
-                                <input type="checkbox" name="" id="" {{ $task->finished ? 'checked' : '' }}>
+                                <form id="finishedForm" action="{{ route('todolist.update') }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="id" value="{{ $task->id }}">
+                                    @if ($task->finished)
+                                        <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none text-sm" name="finished" id="finished" value="0">Marcar como não concluído</button>
+                                    @else
+                                        <button type="submit" class="text-green-500 hover:text-green-700 focus:outline-none" name="finished" id="finished" value="1">Marcar como concluído</button>
+                                    @endif
+                                </form>
                                 <form action="{{ route('todolist.edit', $task->id) }}">
                                     @csrf
                                     <button type="submit" class="text-yellow-500 hover:text-yellow-700 focus:outline-none">Editar</button>
@@ -56,6 +65,10 @@
     <script>
         tippy('#relator', {
             content: 'Responsável da tarefa',
+        });
+
+        document.getElementById('finishedCheckbox').addEventListener('change', function() {
+            document.getElementById('finishedForm').submit();
         });
     </script>
 </x-app-layout>

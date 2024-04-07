@@ -51,10 +51,23 @@ class TasksController extends Controller
 
     public function update(UpdateTaskRequest $request): RedirectResponse
     {
-        Task::where('id', $request->id)->update([
-            'name' => $request->taskName,
-            'description' => $request->taskDescription
-        ]);
+        $task = Task::findOrFail($request->id);
+
+        $taskData = [];
+
+        if ($request->filled('taskName')) {
+            $taskData['name'] = $request->taskName;
+        }
+
+        if ($request->filled('taskDescription')) {
+            $taskData['description'] = $request->taskDescription;
+        }
+
+        if ($request->filled('finished')) {
+            $taskData['finished'] = $request->finished;
+        }
+
+        $task->update($taskData);
 
         return redirect()->route('todolist.index')->with('success', 'Tarefa atualizada com sucesso');
     }

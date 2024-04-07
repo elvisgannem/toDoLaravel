@@ -25,10 +25,11 @@ class UpdateTaskRequest extends FormRequest
         return [
             'id' => [
                 'required',
-                Rule::exists('tasks', 'id')
+                Rule::exists('tasks', 'id'),
             ],
-            'taskName' => 'required|string|max:255',
+            'taskName' => 'nullable|string|max:255',
             'taskDescription' => 'nullable|string',
+            'finished' => 'nullable',
         ];
     }
 

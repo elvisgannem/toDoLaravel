@@ -18,5 +18,7 @@ class UserSeeder extends Seeder
                 'password' => '123',
             ]);
         }
+
+        User::factory(3)->create();
     }
 }
