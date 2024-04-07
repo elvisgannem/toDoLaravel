@@ -13,8 +13,10 @@
                     <div class="flex-1">
                         <ul class="flex justify-center gap-2 flex-wrap">
                             @foreach($users as $user)
-                                <li>{{ $user->name }}</li>
-                                <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none">Apagar</button>
+                                <li class="w-full text-start md:text-center">
+                                    {{ $user->name }}
+                                    <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none">Apagar</button>
+                                </li>
                             @endforeach
                         </ul>
                         <form class="flex flex-col items-center" action="{{ route('todolist.addUsers', $task->id) }}">
