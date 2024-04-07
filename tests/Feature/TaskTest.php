@@ -94,4 +94,16 @@ class TaskTest extends TestCase
 
         $this->assertEquals('1', $task->finished);
     }
+
+    public function test_update_route_without_data_should_return_error()
+    {
+        $user = User::factory()->create();
+        $task = Task::factory()->create();
+
+        $response = $this->actingAs($user)->put('/tasks/update', [
+            'id' => $task->id
+        ]);
+
+        $response->assertSessionHasErrors();
+    }
 }

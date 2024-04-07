@@ -67,6 +67,10 @@ class TasksController extends Controller
             $taskData['finished'] = $request->finished;
         }
 
+        if (!$taskData) {
+            return redirect()->back()->withErrors(['Não foi enviado nenhum valor para ser atualizado']);
+        }
+
         $task->update($taskData);
 
         return redirect()->route('todolist.index')->with('success', 'Tarefa atualizada com sucesso');
