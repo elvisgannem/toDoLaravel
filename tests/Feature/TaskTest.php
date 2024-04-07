@@ -32,7 +32,7 @@ class TaskTest extends TestCase
             ->assertRedirect('/');
 
         $this->assertDatabaseHas('tasks', [
-            'name' => $taskName
+            'name' => $taskName,
         ]);
     }
 
@@ -48,7 +48,7 @@ class TaskTest extends TestCase
             ->assertRedirect('/');
 
         $this->assertDatabaseMissing('tasks', [
-           'id' => $task->id
+            'id' => $task->id,
         ]);
     }
 
@@ -60,10 +60,10 @@ class TaskTest extends TestCase
         $taskName = Str::random();
         $taskDescription = Str::random();
 
-        $response = $this->actingAs($user)->put("/tasks/update", [
+        $response = $this->actingAs($user)->put('/tasks/update', [
             'id' => $task->id,
             'taskName' => $taskName,
-            'taskDescription' => $taskDescription
+            'taskDescription' => $taskDescription,
         ]);
 
         $response
@@ -76,4 +76,22 @@ class TaskTest extends TestCase
         $this->assertEquals($taskDescription, $task->description);
     }
 
+    public function test_if_task_status_can_be_updated()
+    {
+        $user = User::factory()->create();
+        $task = Task::factory()->create(['finished' => 0]);
+
+        $response = $this->actingAs($user)->put('/tasks/update', [
+            'id' => $task->id,
+            'finished' => 1,
+        ]);
+
+        $response
+            ->assertSessionHasNoErrors()
+            ->assertRedirect('/');
+
+        $task->refresh();
+
+        $this->assertEquals('1', $task->finished);
+    }
 }
