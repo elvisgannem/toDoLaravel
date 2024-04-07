@@ -9,10 +9,27 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 flex flex-col gap-5">
+
+                    @if ($errors->any())
+                        <div class="text-center text-red-500 font-bold">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    @if(session('success'))
+                        <div class="text-center text-green-500 font-bold">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                     <form class="flex flex-col items-center" action="{{ route('todolist.store') }}" method="POST">
                         @csrf
                         <label for="newTask"></label>
-                        <input type="text" class="w-1/2 rounded" id="newTask"/>
+                        <input type="text" class="w-1/2 rounded" id="newTask" name="taskName" />
                         <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded w-1/2">Adicionar Tarefa</button>
                     </form>
                     <ul class="flex flex-col gap-4">
