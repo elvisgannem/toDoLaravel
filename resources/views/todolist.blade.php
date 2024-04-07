@@ -12,7 +12,7 @@
                     <x-input-error :messages="$errors->all()" class="text-center text-red-500 font-bold text-xl" />
 
                     @if(session('success'))
-                        <div class="text-center text-green-500 font-bold">
+                        <div class="text-center text-green-500 font-bold text-xl">
                             {{ session('success') }}
                         </div>
                     @endif
