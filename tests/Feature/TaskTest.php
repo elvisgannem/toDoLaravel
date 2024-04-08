@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Task;
+use App\Models\TaskUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
@@ -101,9 +102,28 @@ class TaskTest extends TestCase
         $task = Task::factory()->create();
 
         $response = $this->actingAs($user)->put('/tasks/update', [
-            'id' => $task->id
+            'id' => $task->id,
         ]);
 
         $response->assertSessionHasErrors();
+    }
+
+    public function test_user_removal_to_task()
+    {
+        $user = User::factory()->create();
+        $task = Task::factory()->create();
+        TaskUser::factory()->create([
+            'task_id' => $task->id,
+            'user_id' => $user->id
+        ]);
+
+        $response = $this->actingAs($user)->delete("/tasks/{$task->id}/{$user->id}");
+
+        $response->assertSessionHasNoErrors();
+
+        $this->assertDatabaseMissing('task_user', [
+            'user_id' => $user->id,
+            'task_id' => $task->id,
+        ]);
     }
 }
