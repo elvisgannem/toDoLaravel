@@ -20,7 +20,7 @@ class TaskUserFactory extends Factory
     {
         return [
             'user_id' => User::first()->id,
-            'task_id' => Task::first()->id
+            'task_id' => Task::first()->id,
         ];
     }
 }

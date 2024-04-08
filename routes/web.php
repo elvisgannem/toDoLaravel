@@ -9,6 +9,7 @@ Route::group(['prefix' => 'tasks', 'middleware' => 'auth'], function () {
     Route::get('/{id}/edit', [TasksController::class, 'edit'])->name('todolist.edit');
     Route::get('/{id}/add-users', [TasksController::class, 'addUsers'])->name('todolist.addUsers');
     Route::post('/create', [TasksController::class, 'store'])->name('todolist.store');
+    Route::post('/add-user', [TasksController::class, 'addUserToTask'])->name('todolist.addUserToTask');
     Route::put('/update', [TasksController::class, 'update'])->name('todolist.update');
     Route::delete('/{id}', [TasksController::class, 'destroy'])->name('todolist.destroy');
     Route::delete('/{id}/{userId}', [TasksController::class, 'removeUserFromTask'])->name('todolist.edit.removeUser');

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddUserToTaskRequest;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use App\Models\TaskUser;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class TasksController extends Controller
@@ -38,14 +39,22 @@ class TasksController extends Controller
     {
         return view('todolist-edit', [
             'task' => Task::find($id),
-            'users' => User::all(),
         ]);
     }
 
     public function addUsers(int $id): View
     {
+        $usersWithoutTask = DB::table('users')
+            ->leftJoin('task_user', function ($join) use ($id) {
+                $join->on('users.id', '=', 'task_user.user_id')
+                    ->where('task_user.task_id', '=', $id);
+            })
+            ->whereNull('task_user.task_id')
+            ->select('users.*')
+            ->get();
+
         return view('todolist-users', [
-            'users' => User::all(),
+            'users' => $usersWithoutTask,
             'taskId' => $id,
         ]);
     }
@@ -89,5 +98,15 @@ class TasksController extends Controller
         TaskUser::where('task_id', $id)->where('user_id', $userId)->delete();
 
         return redirect()->back()->with('success', 'Usuário removido com sucesso');
+    }
+
+    public function addUserToTask(AddUserToTaskRequest $request): RedirectResponse
+    {
+        TaskUser::create([
+            'task_id' => $request->task_id,
+            'user_id' => $request->user_id,
+        ]);
+
+        return redirect()->back()->with('success', 'Usuário adicionado com sucesso');
     }
 }

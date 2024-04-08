@@ -114,7 +114,7 @@ class TaskTest extends TestCase
         $task = Task::factory()->create();
         TaskUser::factory()->create([
             'task_id' => $task->id,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $response = $this->actingAs($user)->delete("/tasks/{$task->id}/{$user->id}");
