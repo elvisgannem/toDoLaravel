@@ -24,8 +24,19 @@
                         <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded w-1/2">Adicionar Tarefa</button>
                     </form>
                     <ul class="flex flex-col gap-4">
+
+                        <form id="orderByForm" action={{ route('todolist.index') }} method="GET">
+                            @csrf
+                            <label for="orderBy">Ordenar por: </label>
+                            <select name="orderBy" id="orderBy">
+                                <option value="created_at" {{ $orderBy == 'created_at' ? 'selected' : '' }} >Data de criação</option>
+                                <option value="name" {{ $orderBy == 'name' ? 'selected' : '' }} >Nome da tarefa</option>
+                                <option value="finished" {{ $orderBy == 'finished' ? 'selected' : '' }} >Estado</option>
+                            </select>
+                        </form>
+
                         @foreach($tasks as $task)
-                            <li class="flex justify-between">
+                            <li class="flex justify-between flex-col md:flex-row">
                                 <div class="flex gap-4 items-center w-1/2">
                                     <span class="h-4 w-4 rounded-full {{ $task->finished ? 'bg-green-500' : 'bg-red-500' }}"></span>
                                     <p>{{ $task->name }}</p>
@@ -67,8 +78,8 @@
             content: 'Responsável da tarefa',
         });
 
-        document.getElementById('finishedCheckbox').addEventListener('change', function() {
-            document.getElementById('finishedForm').submit();
-        });
+        document.getElementById('orderByForm').addEventListener('change', function (event) {
+            document.getElementById('orderByForm').submit();
+        })
     </script>
 </x-app-layout>

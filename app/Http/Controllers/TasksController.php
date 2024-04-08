@@ -16,10 +16,12 @@ class TasksController extends Controller
 {
     public function index(): View
     {
-        $tasks = Task::with('relator')->get();
+        $orderBy = request()->orderBy ?? 'created_at';
+        $tasks = Task::with('relator')->orderBy($orderBy, 'ASC')->get();
 
         return view('todolist', [
             'tasks' => $tasks,
+            'orderBy' => $orderBy
         ]);
     }
 
