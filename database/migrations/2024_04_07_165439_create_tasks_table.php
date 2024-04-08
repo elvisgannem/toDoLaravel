@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->unsignedBigInteger('relator_user_id');
             $table->boolean('finished')->default(false);
-            $table->foreign('relator_user_id')->references('id')->on('users');
+            $table->foreign('relator_user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
