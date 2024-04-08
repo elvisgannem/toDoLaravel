@@ -21,7 +21,7 @@ class TasksController extends Controller
 
         return view('todolist', [
             'tasks' => $tasks,
-            'orderBy' => $orderBy
+            'orderBy' => $orderBy,
         ]);
     }
 
