@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TasksController;
 use App\Http\Middleware\AdminMiddleware;
@@ -16,9 +17,9 @@ Route::group(['prefix' => 'tasks', 'middleware' => 'auth'], function () {
     Route::delete('/{id}/{userId}', [TasksController::class, 'removeUserFromTask'])->name('todolist.edit.removeUser');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified', AdminMiddleware::class])->name('dashboard');
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified', AdminMiddleware::class]], function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
