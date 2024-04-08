@@ -12,10 +12,14 @@
                 <div class="p-6 text-gray-900 flex flex-col md:flex-row gap-5">
                     <div class="flex-1">
                         <ul class="flex justify-center gap-2 flex-wrap">
-                            @foreach($users as $user)
+                            @foreach($task->users as $user)
                                 <li class="w-full text-start md:text-center">
                                     {{ $user->name }}
-                                    <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none">Apagar</button>
+                                    <form class="inline-block" action="{{ route('todolist.edit.removeUser', [$task->id, $user->id]) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none">Apagar</button>
+                                    </form>
                                 </li>
                             @endforeach
                         </ul>

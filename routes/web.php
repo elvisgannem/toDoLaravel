@@ -11,6 +11,7 @@ Route::group(['prefix' => 'tasks', 'middleware' => 'auth'], function () {
     Route::post('/create', [TasksController::class, 'store'])->name('todolist.store');
     Route::put('/update', [TasksController::class, 'update'])->name('todolist.update');
     Route::delete('/{id}', [TasksController::class, 'destroy'])->name('todolist.destroy');
+    Route::delete('/{id}/{userId}', [TasksController::class, 'removeUserFromTask'])->name('todolist.edit.removeUser');
 });
 
 Route::get('/dashboard', function () {

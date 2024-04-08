@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use App\Models\TaskUser;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -67,7 +68,7 @@ class TasksController extends Controller
             $taskData['finished'] = $request->finished;
         }
 
-        if (!$taskData) {
+        if (! $taskData) {
             return redirect()->back()->withErrors(['Não foi enviado nenhum valor para ser atualizado']);
         }
 
@@ -81,5 +82,12 @@ class TasksController extends Controller
         Task::find($id)->delete();
 
         return redirect()->back()->with('success', 'Tarefa deletada com sucesso');
+    }
+
+    public function removeUserFromTask(int $id, int $userId): RedirectResponse
+    {
+        TaskUser::where('task_id', $id)->where('user_id', $userId)->delete();
+
+        return redirect()->back()->with('success', 'Usuário removido com sucesso');
     }
 }
