@@ -19,6 +19,8 @@ Route::group(['prefix' => 'tasks', 'middleware' => 'auth'], function () {
 
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified', AdminMiddleware::class]], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::put('/make-admin/{userId}', [DashboardController::class, 'makeAdmin'])->name('dashboard.makeAdmin');
+    Route::delete('/delete-user/{userId}', [DashboardController::class, 'deleteUser'])->name('dashboard.deleteUser');
 });
 
 Route::middleware('auth')->group(function () {

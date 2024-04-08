@@ -11,12 +11,20 @@
                 <div class="p-6 text-gray-900">
                     <ul>
                         @foreach($users as $user)
-                            <li>
+                            <li class="flex gap-2">
                                 {{ $user->name }}
-                                <form>
-                                    <button type="submit" class="text-green-500 hover:text-green-700 focus:outline-none">Tornar admin</button>
+                                @if(!$user->isAdmin)
+                                    <form action="{{ route('dashboard.makeAdmin', $user->id) }}" method="POST">
+                                        @csrf
+                                        @method('put')
+                                        <button type="submit" class="text-green-500 hover:text-green-700 focus:outline-none">Tornar admin</button>
+                                    </form>
+                                @endif
+                                <form action="{{ route('dashboard.deleteUser', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none">Apagar</button>
                                 </form>
-                                <button type="submit" class="text-red-500 hover:text-red-700 focus:outline-none">Apagar</button>
                             </li>
                         @endforeach
                     </ul>
