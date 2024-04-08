@@ -126,4 +126,22 @@ class TaskTest extends TestCase
             'task_id' => $task->id,
         ]);
     }
+
+    public function test_user_assignment_to_task()
+    {
+        $user = User::factory()->create();
+        $task = Task::factory()->create();
+
+        $response = $this->actingAs($user)->post('/tasks/add-user', [
+            'task_id' => $task->id,
+            'user_id' => $user->id,
+        ]);
+
+        $response->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas('task_user', [
+            'user_id' => $user->id,
+            'task_id' => $task->id,
+        ]);
+    }
 }
